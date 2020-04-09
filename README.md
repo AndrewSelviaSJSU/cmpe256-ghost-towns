@@ -11,6 +11,8 @@ Now, within this global project, add modules for the specific projects on which 
 
 ## preparer
 
+![Preparer CI](https://github.com/AndrewSelviaSJSU/cmpe256-ghost-towns/workflows/Preparer%20CI/badge.svg)
+
 This is our data preparation code.
 
 ### IntelliJ IDEA Set-up Instructions
