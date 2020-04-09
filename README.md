@@ -40,3 +40,8 @@ The Spark documentation specifies [the versions of Java & Scala to use](https://
 5. Select *2.12.11*
 6. Select *OK*
 7. Select *OK*
+
+## References
+
+* [ArchiveSpark Paper](https://www.helgeholzmann.de/papers/JCDL_2016_ArchiveSpark.pdf)
+* [Sort-friendly URI Reordering Transform (SURT)](http://crawler.archive.org/articles/user_manual/glossary.html#surt)
