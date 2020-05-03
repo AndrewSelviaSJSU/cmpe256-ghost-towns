@@ -1,3 +1,6 @@
+# Custom Rules
+
+output*
 
 # Created by https://www.gitignore.io/api/git,sbt,java,linux,macos,scala,python,sublimetext,pycharm+all,intellij+all,jupyternotebooks,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,sbt,java,linux,macos,scala,python,sublimetext,pycharm+all,intellij+all,jupyternotebooks,visualstudiocode
