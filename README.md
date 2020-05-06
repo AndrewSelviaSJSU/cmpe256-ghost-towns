@@ -65,6 +65,9 @@ The Spark documentation specifies [the versions of Java & Scala to use](https://
 * [Data Specs](https://github.com/helgeho/ArchiveSpark/blob/master/docs/DataSpecs.md)
 * [ArchiveSpark Recipes/Examples](https://github.com/helgeho/ArchiveSpark/blob/master/docs/Recipes.md): The links here are *critical* to getting started!
 * [The WARC Ecosystem](https://www.archiveteam.org/index.php?title=The_WARC_Ecosystem#Tools): I discovered ArchiveSpark through this wiki.
+* [sbt-assembly](https://github.com/sbt/sbt-assembly): We used this to package Preparer as a fat jar so it could be passed as a single jar to `spark-submit` on the cluster.
+* [How to Package a Spark-based Scala App as a Fat Jar Using sbt-assembly](http://queirozf.com/entries/creating-scala-fat-jars-for-spark-on-sbt-with-sbt-assembly-plugin#spark-2-x)
+* [How to Limit Spark Logging to Errors](https://stackoverflow.com/a/50371063/6073927)
 
 ### SBT
 
