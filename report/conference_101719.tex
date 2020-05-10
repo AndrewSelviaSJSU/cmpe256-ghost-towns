@@ -63,11 +63,31 @@ The combination of Spark and GraphFrames enables rapid iteration. Spark provides
 
 \subsection{CommonCrawl Data}
 
-TODO
+CommonCrawl provides free, off-the-shelf web crawl data dating back 7 years. Access is simple since the entire dataset is hosted on AWS S3. One need only choose a month's web crawl and a subset to retrieve. The results described in this paper utilize a single file from the February 2020 crawl.
+
+Importantly, CommonCrawl vends the data in Web Archive (WARC) format. This highly-compacted representation encodes a full request and response transaction for each URL visited during the crawl. Though efficient for storage and transmission, WARC demands special care to process.
 
 \subsection{Preparer}
 
-TODO
+Data preparation responsibilities are apportioned to Preparer: a novel application which takes raw WARC data as input and outputs communities derived from LPA. Custom-built for this project, it is the primary integration point. It is written in Scala and built with SBT.
+
+Raw WARC data is processed via ArchiveSpark: software which enables "efficient data processing, extraction, and derivation for archival collections", most-commonly web archives. Preparer utilizes its APIs for converting WARC data to CDX format. This translation taps into ArchiveSpark's primary advantage: performance. By pre-processing WARC data into CDX format (which only retains metadata), ArchiveSpark is able to perform common operations much faster than if raw WARC data was fed through Spark directly.
+
+After pre-processing, ArchiveSpark's enrichment functions are composed into a functional interface which is then applied over the web archive records. The resulting enrichment extracts all links in the HTML response body for an individual WARC record. These links are further refined by stripping away all details from the path except the DNS name. For instance, https://example.com/api/123 would become just example.com. This step simplifies community detection later on.
+
+Each DNS name pair will soon represent an edge in the graph. First, however, the DNS names are flattened distinctly into an RDD and each is assigned a hash ID. These IDs represent the vertices in the graph. The edges are simply mapped to their IDs before being finalized.
+
+With vertices and edges defined, Preparer is now able to leverage GraphFrames to construct a graph. Finally, the LPA implementation provided via GraphFrames is invoked with a maximum iteration value of five. Whether it converges (not guaranteed) or reaches its fifth iteration, LPA will detect communities within the graph by iteratively grouping neighbors which share a common label. In the end, each vertex will be assigned to a label which hopefully aggregates similar sites by considering the links emanating from each. Preparer performs one final operation which groups the vertices by label and sorts each community by size in descending order.
+
+Effort was expended to package Preparer in a single fat jar so it could be run via spark-submit on the SJSU HPC. Unfortunately, even provisioned with two nodes possessing 128GB RAM, Preparer repeatedly hit the timeout limit. Thankfully, it can be operated locally. The results in this paper are derived from a local execution of Preparer which took on the order of one hour to complete. Certainly, given more time for research, the SJSU HPC would be a more efficient environment in which to operate Preparer.
+
+In conclusion, Preparer satisfies its contract of processing raw WARC data through a pipeline which includes LPA to detect communities. Though inspired by Win Suen's process, this procedure is truly novel as her data preparation code is excluded from her report and makes no mention of ArchiveSpark.
+
+TODO: place these correctly
+References:
+* https://github.com/helgeho/ArchiveSpark/blob/master/notebooks/Generating_CDX.ipynb
+* https://github.com/helgeho/ArchiveSpark/blob/master/notebooks/Link_Extraction.ipynb
+* https://github.com/helgeho/ArchiveSpark/blob/master/docs/EnrichFuncs.md
 
 \subsection{Reaper}
 
