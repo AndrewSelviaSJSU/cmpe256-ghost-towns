@@ -85,6 +85,8 @@ Effort was expended to package Preparer in a single fat jar so it could be run v
 In conclusion, Preparer satisfies its contract of processing raw WARC data through a pipeline which includes LPA to detect communities. Though inspired by Win Suen's process, this procedure is truly novel as her data preparation code is excluded from her report and makes no mention of ArchiveSpark.
 
 \subsection{Reaper}
+\subsection{Version 1}
+To get the HTTP status of a given website, there must be some program to make a HTTP request. The first version of this program was a python script that utilized the requests and URLLib libraries. Reaper version 1 ran serially and processed about 70 URLs per minute, which quickly became a bottleneck for our project. In some attempts to speed up each request, some minor changes was made, like sending HEAD requests instead of full GET requests, using "http://" instead of "https://", and limiting the request timeout to one second. None of these fixes provided the necessary speed boost, so ultimately the program had to be restructured to run more efficiently.
 
 TODO
 \subsubsection{Version 2}
@@ -100,6 +102,9 @@ another similar script was deployed with slight difference:
 With ThreadPoolExecutor in use with the max workers set to 3 and connection timeout set to 60 seconds, but only requests the URLs that were first seemed downed by the first script. By applying this method, 
 it is observed that approximately 50\% of the false negatives were eliminated. 
 Yet there are a total of 140k URLs so other faster tool is needed for the research.
+
+\subsection{Version 3}
+
 \subsection{Visualization}
 
 Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure X.a shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure X.b confirms this numerically. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
