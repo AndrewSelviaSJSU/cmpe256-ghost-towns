@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{subfigure}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -74,7 +75,51 @@ TODO
 
 \subsection{Visualization}
 
-TODO
+Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure X.a shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure X.b confirms this numerically. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[Communities plotted by size]
+    {
+        \includegraphics[width=1.0in]{communities_by_size.png}
+        \label{fig:communities_by_size}
+    }
+    \\
+    \subfigure[Community size distribution]
+    {
+        \includegraphics[width=1.0in]{community_size_distribution.png}
+        \label{fig:community_distribution}
+    }
+    \caption{Community numbers and sizes visualized qualitatively (left) and quantitatively (right).}
+    \label{fig}
+\end{figure}
+
+On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figure X2 visualizes the same community in two different layouts. The “circle” layout (Figure X2.a) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modelling the relationships between websites, however, the Fruchterman-Reingold layout (Figure X2.b) does a much better job.
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[Circular Layout]
+    {
+        \includegraphics[width=1.0in]{community_circular.png}
+        \label{fig:circular_community}
+    }
+    \\
+    \subfigure[Furchterman-Reingold Layout]
+    {
+        \includegraphics[width=1.0in]{community_fr.png}
+        \label{fig:fr_community}
+    }
+    \caption{The same community displayed with two different layouts.}
+    \label{fig}
+    
+\centerline{\includegraphics{fig1.png}}
+\caption{}
+\label{Figure X2}
+\end{figure}
+
+Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
+
+
 
 \section{Ease of Use}
 
