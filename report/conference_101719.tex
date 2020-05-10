@@ -92,7 +92,19 @@ References:
 \subsection{Reaper}
 
 TODO
-
+\subsubsection{Version 2}
+The first version of HTTP request system was a serialized version, 
+which means if there exists on website link that does not respond in time the speed of the script will be slowed down, 
+therefore parallel task distribution is need. 
+Since the sequence of the output by the script does not matter, 
+a Python concurrent futures library was used in this study; 
+as HTTP header requests are I/O bound task, 
+with ThreadPoolExecutor in use with the max workers set to 15 and connection timeout set to 3 seconds the speed of HTTP header requests can be boosted up to 350 URLs per minute.
+ Moreover, in order to eliminate false negatives, 
+another similar script was deployed with slight diference: 
+With ThreadPoolExecutor in use with the max workers set to 3 and connection timeout set to 60 seconds, but only requests the URLs that were first seemed downed by the first script. By applying this method, 
+it is observed that approximately 50\% of the false negatives were eliminated. 
+Yet there are a total of 140k URLs so other faster tool is needed for the research.
 \subsection{Visualization}
 
 Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure X.a shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure X.b confirms this numerically. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
