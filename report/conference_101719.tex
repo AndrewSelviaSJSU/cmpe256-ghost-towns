@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage{subfigure}
 \usepackage{url}
+\usepackage{lipsum}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -114,7 +115,7 @@ Running the LPA algorithm yielded about 20,000 different communities. These resu
  \caption{The distribution of community sizes detected by LPA.}
 \end{figure}
 
-On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figure X2 visualizes the same community in two different layouts. The “circle” layout (Figure X2.a) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout (Figure X2.b) does a much better job.
+On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figure X2 visualizes the same community in two different layouts. The “circle” layout (Figure X2.a) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure X2.b) does a much better job.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community-circular.png}}
@@ -128,94 +129,59 @@ On the individual community level, website statuses can be included in the graph
 
 Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
 
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/01before.png}}
- \caption{}
-\end{figure}
+\section{Results and Findings}
+LPA marks similar websites with connections and if dive into the content of graph, 
+clusters of communities can be observed. 
+Firstly, 
+no surprise are the communities of big tech companies:
+At Figure \ref{fig:tech}, few of these largest communities are ventered by facebook.com, weibo.com dahucap.com and so on.
 
 \begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/01after.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/04before.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/04after.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/05before.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/05after.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/06before.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/06after.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/07before.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/07after.png}}
- \caption{}
-\end{figure}
-
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/astro.png}}
- \caption{}
+ \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
+ \caption{An overview of biggest communities of LPA result}
 \end{figure}
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{figs/google.png}}
- \caption{}
+ \caption{A zoomed in view of the largest community}
+ \label{fig:tech}
+\end{figure}
+Next up are the smaller communities shown in Figure \ref{fig:small groups}, 
+note that they are highly uniform and are very specific.
+
+\begin{figure}
+    \centering
+    \subfigure[]{\includegraphics[width=0.24\textwidth]{figs/motor.png}} 
+    \subfigure[]{\includegraphics[width=0.24\textwidth]{figs/indigenous.png}} 
+    \subfigure[]{\includegraphics[width=0.24\textwidth]{figs/astro.png}}
+    \caption{(a)Northwestern Motorcycle Group (b)Canadian Indigenous Group (c) French Astronomy Photography Group}
+    \label{fig:small groups}
 \end{figure}
 
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
- \caption{}
+To find out which community is still active and which ones are dead, 
+a series targeted community HTTP requests was made to the web hosts. 
+The results of the pings are astonishing and yet satisfying: 
+Web pages with higher Pageranks\cite{ilprints422} are more likely to be alive whereas web sites with low Pagerank are prone to death.
+
+Some of the websites that are shady has a shorter life expectancy, 
+for communities such as Figure \ref{fig:dead}.
+seeing them through web cache it is easy to tell that they are mostly related with online gamble industry. 
+As most of the gambling websites are illegal and aims to scam innocent people, 
+it is safe to infer that the phishing websites are expected to be dead very soon as they serve only one purpose: 
+to scam people. 
+As they get reported trough time and as the web indexing company finds out, 
+the whole scamming community is likely to be eliminated.
+
+\begin{figure}[!h]
+ \centerline{\includegraphics[width=\columnwidth]{figs/07after.png}}
+ \caption{Scamming Community} 
+ \label{fig:dead}
 \end{figure}
 
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/indigenous.png}}
- \caption{}
-\end{figure}
+\section{Conclusion}
+\lipsum[2-4]
 
-\begin{figure}[htbp]
- \centerline{\includegraphics[width=\columnwidth]{figs/motor.png}}
- \caption{}
-\end{figure}
 
-\begin{thebibliography}{00}
-\bibitem{generatingCdx}
-		Generating CDX, 
-		\url{https://github.com/helgeho/ArchiveSpark/blob/master/notebooks/Generating_CDX.ipynb}
-		2019
-\bibitem{linkExtraction}
-		Link Extraction, 
-		\url{https://github.com/helgeho/ArchiveSpark/blob/master/notebooks/Link_Extraction.ipynb}
-		2019
-\bibitem{enrichmentFunctions}
-		Enrichment Functions, 
-		\url{https://github.com/helgeho/ArchiveSpark/blob/master/docs/EnrichFuncs.md}
-		2019
-\end{thebibliography}
-
+\bibliographystyle{IEEEtran}
+\bibliography{citations}
 \end{document}
