@@ -11,11 +11,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Conference Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
-}
+\title{Ghost Towns: Web Community Health Analysis}
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Heng Jerry Quan}
 \IEEEauthorblockA{\textit{CMPE 256} \\
@@ -27,36 +23,58 @@ heng.j.quan@sjsu.edu}
 \IEEEauthorblockA{\textit{CMPE 256} \\
 \textit{SJSU}\\
 San Jose, USA \\
-email address or ORCID}
+andrew.selvia@sjsu.edu}
 \and
 \IEEEauthorblockN{3\textsuperscript{rd} Sean Wu}
 \IEEEauthorblockA{\textit{CMPE 256} \\
 \textit{SJSU}\\
 San Jose, USA \\
 email address or ORCID}
-\and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
 }
 
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+Quickly compressing the web's scale and heterogeneity into similar communities is an ideal task for large-scale analytic techniques. This project employs the Label Propagation Algorithm to extract communities from web crawl data. These communities are then fed into a post-processing system which identifies websites which are no longer accessible. Communities composed of a large number of inaccessible websites are labeled "ghost towns". Taken holistically, this project demonstrates how to evaluate the health of web communities at scale.
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+Large-scale Analytics, Community Detection, Label Propagation
 \end{IEEEkeywords}
 
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits. 
+
+One of the Internet's core advantages is its openness. It enables the distribution of free speech at unprecedented scale. Of course, this property also leads to chaos. Making sense of such a large corpus of information is not trivial. Luckily, decades of concerted effort and research have manifested in tools and techniques for processing this information graph.
+
+This project leverages the expertise of others in the fields of web archival, graph community detection, and distributed computing. Its primary aim is to analyze the health of web communities. In this context, the health of a web community is defined as the proportion of sites within a community which are accessible.
+
+\subsection{Related Work}
+
+The primary inspiration which led to this research is the "Large-scale Graph Mining with Spark" work performed by Win Suen. In her articles, she describes how to detect communities from web archives using label propagation and Apache Spark. Her general approach is leveraged, though many of the gaps are fleshed out with complete implementations. Additionally, a post-processing phase for determining the liveness of sites within a community is introduced.
+
+\section{Tools and Techniques}
+
+\subsection{Community Detection}
+
+Approaches like hierarchical clustering, k-means clustering, and label propagation can be employed to detect communities. This project focuses on label propagation due to its built-in support within GraphFrames: a graph processing library built atop Apache Spark.
+
+The combination of Spark and GraphFrames enables rapid iteration. Spark provides distributed data processing, critical when working with large-scale web archive data. GraphFrames, built directly upon Spark's DataFrame API, elevates this project further my handling all the core graph representation duties. Furthermore, it provides a ready-made implementation of the Label Propagation Algorithm.
+
+\subsection{CommonCrawl Data}
+
+TODO
+
+\subsection{Preparer}
+
+TODO
+
+\subsection{Reaper}
+
+TODO
+
+\subsection{Visualization}
+
+TODO
 
 \section{Ease of Use}
 
