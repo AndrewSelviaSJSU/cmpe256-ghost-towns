@@ -127,14 +127,14 @@ On the individual community level, website statuses can be included in the graph
  \caption{Example of a figure caption.}
 \end{figure}
 
-Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
+
 
 \section{Results and Findings}
 LPA marks similar websites with connections and if dive into the content of graph, 
 clusters of communities can be observed. 
 Firstly, 
 no surprise are the communities of big tech companies:
-At Figure \ref{fig:tech}, few of these largest communities are ventered by facebook.com, weibo.com dahucap.com and so on.
+At Figure \ref{fig:tech}, few of these largest communities are centered by facebook.com, weibo.com dahucap.com and so on.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
@@ -146,8 +146,29 @@ At Figure \ref{fig:tech}, few of these largest communities are ventered by faceb
  \caption{A zoomed in view of the largest community}
  \label{fig:tech}
 \end{figure}
-Next up are the smaller communities shown in Figure \ref{fig:small groups}, 
-note that they are highly uniform and are very specific.
+To find out which community is still active and which ones are dead, 
+a series of targeted community HTTP requests was made to the web hosts. 
+The results of the pings are astonishing and yet satisfying: 
+Web pages with higher Pageranks\cite{ilprints422} are more likely to be alive whereas web sites with low Pagerank are prone to death.
+
+Within each cluster, all the websites should have something in common. 
+The results show that LPA can detect super niche communities. 
+Some examples of this are the Indigenous Canadian community, 
+the Pacific-Northwest Motorcycle community, 
+and the French Astrophotography community (Firgure \ref{fig:small groups}). 
+These communities are mostly still up, with very few dead links. 
+In line with the goals of this project, 
+the algorithm was able to successfully find some online ghost towns. 
+Websites that are shady has a shorter life expectancy, 
+for communities such as Figure \ref{fig:dead}.
+seeing them through web cache it is easy to tell that they look like the Chinese Gambling website community.
+None of the fourteen websites in this community are still up. 
+It is possible that these websites were terminated or reported.
+As most of the gambling websites are illegal and aims to scam innocent people, 
+it is safe to infer that the phishing websites are expected to be dead very soon as they serve only one purpose: 
+to scam people. 
+
+
 
 \begin{figure}
     \centering
@@ -158,10 +179,6 @@ note that they are highly uniform and are very specific.
     \label{fig:small groups}
 \end{figure}
 
-To find out which community is still active and which ones are dead, 
-a series targeted community HTTP requests was made to the web hosts. 
-The results of the pings are astonishing and yet satisfying: 
-Web pages with higher Pageranks\cite{ilprints422} are more likely to be alive whereas web sites with low Pagerank are prone to death.
 
 Some of the websites that are shady has a shorter life expectancy, 
 for communities such as Figure \ref{fig:dead}.
@@ -179,6 +196,7 @@ the whole scamming community is likely to be eliminated.
 \end{figure}
 
 \section{Conclusion}
+
 \lipsum[2-4]
 
 
