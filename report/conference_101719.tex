@@ -1,6 +1,5 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
@@ -16,29 +15,29 @@
 
 \title{Ghost Towns: Web Community Health Analysis}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Heng Jerry Quan}
+\author{\IEEEauthorblockN{Heng Jerry Quan}
 \IEEEauthorblockA{\textit{CMPE 256} \\
-\textit{SJSU}\\
-San Jose, USA \\
+\textit{San Jos\'{e} State University}\\
+San Jos\'{e}, CA, USA \\
 heng.j.quan@sjsu.edu}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Andrew Selvia}
+\IEEEauthorblockN{Andrew Selvia}
 \IEEEauthorblockA{\textit{CMPE 256} \\
-\textit{SJSU}\\
-San Jose, USA \\
+\textit{San Jos\'{e} State University}\\
+San Jos\'{e}, CA, USA \\
 andrew.selvia@sjsu.edu}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Sean Wu}
+\IEEEauthorblockN{Sean Wu}
 \IEEEauthorblockA{\textit{CMPE 256} \\
-\textit{SJSU}\\
-San Jose, USA \\
+\textit{San Jos\'{e} State University}\\
+San Jos\'{e}, CA, USA \\
 shao-an.wu@sjsu.edu}
 }
 
 \maketitle
 
 \begin{abstract}
-Quickly compressing the web's scale and heterogeneity into similar communities is an ideal task for large-scale analytic techniques. This project employs the Label Propagation Algorithm to extract communities from web crawl data. These communities are then fed into a post-processing system which identifies websites which are no longer accessible. Communities composed of a large number of inaccessible websites are labeled "ghost towns". Taken holistically, this project demonstrates how to evaluate the health of web communities at scale.
+Quickly compressing the web's scale and heterogeneity into similar communities is an ideal task for large-scale analytic techniques. This project employs the Label Propagation Algorithm to extract communities from web crawl data. These communities are then fed into a post-processing system which identifies websites which are no longer accessible. Communities composed of a large number of inaccessible websites are labeled ``ghost towns''. Taken holistically, this project demonstrates how to evaluate the health of web communities at scale.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -53,7 +52,7 @@ This project leverages the expertise of others in the fields of web archival, gr
 
 \subsection{Related Work}
 
-The primary inspiration which led to this research is the "Large-scale Graph Mining with Spark" work performed by Win Suen. In her articles, she describes how to detect communities from web archives using label propagation and Apache Spark. Her general approach is leveraged, though many of the gaps are fleshed out with complete implementations. Additionally, a post-processing phase for determining the liveness of sites within a community is introduced.
+The primary inspiration which led to this research is the ``Large-scale Graph Mining with Spark'' work performed by Win Suen. In her articles\cite{largeScaleGraphMiningWithSpark1}\cite{largeScaleGraphMiningWithSpark2}, she describes how to detect communities from web archives using label propagation and Apache Spark. Her general approach is leveraged, though many of the gaps are fleshed out with complete implementations. Additionally, a post-processing phase for determining the liveness of sites within a community is introduced.
 
 \section{Tools and Techniques}
 
@@ -61,7 +60,7 @@ The primary inspiration which led to this research is the "Large-scale Graph Min
 
 Approaches like hierarchical clustering, k-means clustering, and label propagation can be employed to detect communities. This project focuses on label propagation due to its built-in support within GraphFrames: a graph processing library built atop Apache Spark.
 
-The combination of Spark and GraphFrames enables rapid iteration. Spark provides distributed data processing, critical when working with large-scale web archive data. GraphFrames, built directly upon Spark's DataFrame API, elevates this project further my handling all the core graph representation duties. Furthermore, it provides a ready-made implementation of the Label Propagation Algorithm.
+The combination of Spark and GraphFrames enables rapid iteration. Spark provides distributed data processing, critical when working with large-scale web archive data. GraphFrames, built directly upon Spark's DataFrame API, elevates this project further by handling all the core graph representation duties. Furthermore, it provides a ready-made implementation of the Label Propagation Algorithm.
 
 \subsection{CommonCrawl Data}
 
@@ -73,7 +72,7 @@ Importantly, CommonCrawl vends the data in Web Archive (WARC) format. This highl
 
 Data preparation responsibilities are apportioned to Preparer: a novel application which takes raw WARC data as input and outputs communities derived from LPA. Custom-built for this project, it is the primary integration point. It is written in Scala and built with SBT.
 
-Raw WARC data is processed via ArchiveSpark: software which enables "efficient data processing, extraction, and derivation for archival collections", most-commonly web archives. Preparer utilizes its APIs for converting WARC data to CDX format. This translation taps into ArchiveSpark's primary advantage: performance. By pre-processing WARC data into CDX format (which only retains metadata), ArchiveSpark is able to perform common operations much faster than if raw WARC data was fed through Spark directly \cite{generatingCdx}.
+Raw WARC data is processed via ArchiveSpark: software which enables ``efficient data processing, extraction, and derivation for archival collections,''\cite{archiveSpark} most-commonly web archives. Preparer utilizes its APIs for converting WARC data to CDX format. This translation taps into ArchiveSpark's primary advantage: performance. By pre-processing WARC data into CDX format (which only retains metadata), ArchiveSpark is able to perform common operations much faster than if raw WARC data was fed through Spark directly \cite{generatingCdx}.
 
 After pre-processing, ArchiveSpark's enrichment functions \cite{enrichmentFunctions} are composed into a functional interface which is then applied over the web archive records. The resulting enrichment extracts all links in the HTML response body for an individual WARC record \cite{linkExtraction}. These links are further refined by stripping away all details from the path except the DNS name. For instance, https://example.com/api/123 would become just example.com. This step simplifies community detection later on.
 
@@ -89,32 +88,25 @@ In conclusion, Preparer satisfies its contract of processing raw WARC data throu
 
 \subsubsection{Version 1}
 
-To get the HTTP status of a given website, there must be some program to make a HTTP request. The first version of this program was a python script that utilized the requests and URLLib libraries. Reaper version 1 ran serially and processed about 70 URLs per minute, which quickly became a bottleneck for our project. In some attempts to speed up each request, some minor changes was made, like sending HEAD requests instead of full GET requests, using "http://" instead of "https://", and limiting the request timeout to one second. None of these fixes provided the necessary speed boost, so ultimately the program had to be restructured to run more efficiently.
+To get the HTTP status of a given website, there must be some program to make a HTTP request. The first version of this program was a python script that utilized the requests and URLLib libraries. Reaper version 1 ran serially and processed about 70 URLs per minute, which quickly became a bottleneck for this project. In some attempts to speed up each request, some minor changes was made, like sending HEAD requests instead of full GET requests, using ``http://'' instead of ``https://'', and limiting the request timeout to one second. None of these fixes provided the necessary speed boost, so ultimately the program had to be restructured to run more efficiently.
 
 \subsubsection{Version 2}
 
-The first version of HTTP request system was a serialized version, 
-which means if there exists on website link that does not respond in time the speed of the script will be slowed down, 
-therefore parallel task distribution is need. 
-Since the sequence of the output by the script does not matter, 
-a Python concurrent futures library was used in this study; 
-as HTTP header requests are I/O bound task, 
-with ThreadPoolExecutor in use with the max workers set to 15 and connection timeout set to 3 seconds the speed of HTTP header requests can be boosted up to 350 URLs per minute.
- Moreover, in order to eliminate false negatives, 
-another similar script was deployed with slight difference: 
-With ThreadPoolExecutor in use with the max workers set to 3 and connection timeout set to 60 seconds, but only requests the URLs that were first seemed downed by the first script. By applying this method, 
-it is observed that approximately 50\% of the false negatives were eliminated. 
-Yet there are a total of 140k URLs so other faster tool is needed for the research.
+The first version of Reaper operated serially, therefore if there exists any website link that does not respond in time, the speed of the script will degrade. It became evident that parallel task distribution is needed. 
+
+Since the sequence of the output by the script does not matter, a Python concurrent futures library was utilized. The speed of HTTP HEAD requests can be boosted up to 350 URLs per minute by using a ThreadPoolExecutor with the max workers set to 15 and connection timeout set to 3 seconds. HTTP HEAD requests are I/O bound task.
+
+Moreover, in order to eliminate false negatives, another similar script was deployed with slight difference: with ThreadPoolExecutor in use with the max workers set to 3 and connection timeout set to 60 seconds, but only requests the URLs that were first seemed downed by the first script. By applying this method, it is observed that approximately 50\% of the false negatives are eliminated. Yet there are a total of 140,000 URLs so additional throughput is still needed.
 
 \subsubsection{Version 3}
 
 With the presentation deadline looming, it became clear that the primary bottleneck to discovering ghost towns was Reaper. In order to perform rapid analysis of communities, it needed to process URLs more quickly. This insight led to a third version of Reaper. This time, the Akka library was chosen for its superb concurrent programming model based on actors. This third version of Reaper is written in Scala, built with SBT, and depends on akka-typed \cite{akkaTyped} and akka-http \cite{akkaHttp}. Functionally, it consumes a list of URLs, making a HEAD request for each, then marks the URL as reachable if and only if the response's status code is neither a 4XX (client error) nor 5XX (server error); if the request times out (with a 60 second limit), the URL is marked unreachable. This repeatable process is distributed to Akka actors running concurrently. With proper tuning, this revised approach is capable of processing over 600 URLs per minute running on a single machine. Of course, with some additional effort, the actor model could scale to additional nodes in a cluster, potentially yielding far higher throughput. Time constraints and overriding priorities prohibited further advances on this front.
 
-Equipped with Reaper in its latest form, ghost towns can be discovered in a fraction of the time it took at first. Of course, another key metric by which to judge it is accuracy. In that regard, Reaper is still quite finicky. After careful tuning of timeout values and concurrent processing limits, Reaper is able to catch predominantly true negatives (URLs which are truly unreachable). However, careless configuration such as insufficient timeout lengths or lack of throttling can produce large numbers of false negatives (URLs marked unreachable which are, in fact, reachable). Improved evaluation of Reaper results is an unexplored area of this project. Currently, evaluation is performed manually and judged heuristically. Nonetheless, its current form is satisfactory for the purposes of this research.
+Equipped with Reaper in its latest form, ghost towns can be discovered nearly 10 times faster than in version 1. Of course, another key metric by which to judge it is accuracy. In that regard, Reaper is still quite finicky. After careful tuning of timeout values and concurrent processing limits, Reaper is able to catch predominantly true negatives (URLs which are truly unreachable). However, careless configuration such as insufficient timeout lengths or lack of throttling can produce large numbers of false negatives (URLs marked unreachable which are, in fact, reachable). Improved evaluation of Reaper results is an unexplored area of this project. Currently, evaluation is performed manually and judged heuristically. Nonetheless, its current form is satisfactory for the purposes of this research.
 
 \subsection{Visualization}
 
-Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure X.a shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure X.b confirms this numerically. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
+Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure 1 shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure 2 confirms this quantitatively. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{communities_by_size.png}}
@@ -126,26 +118,22 @@ Running the LPA algorithm yielded about 20,000 different communities. These resu
  \caption{The distribution of community sizes detected by LPA.}
 \end{figure}
 
-On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figure X2 visualizes the same community in two different layouts. The “circle” layout (Figure X2.a) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure X2.b) does a much better job.
+On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figures 3 \& 4 visualizes the same community in two different layouts. The “circle” layout (Figure 3) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure 4) does a much better job.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community-circular.png}}
- \caption{Example of a figure caption.}
+ \caption{A community displayed in circular layout}
 \end{figure}
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community_fr.png}}
- \caption{Example of a figure caption.}
+ \caption{The same community displayed in Fruchterman-Reingold layout}
 \end{figure}
 
 Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
 
 \section{Results and Findings}
-LPA marks similar websites with connections and if dive into the content of graph, 
-clusters of communities can be observed. 
-Firstly, 
-no surprise are the communities of big tech companies:
-At Figure \ref{fig:tech}, few of these largest communities are ventered by facebook.com, weibo.com dahucap.com and so on.
+LPA marks similar websites with connections and observable communities can be observed in the graph. Unsurprisingly, one of the largest observed communities contains a plethora of big tech companies: At Figure \ref{fig:tech}, few of these largest communities are centered around facebook.com, weibo.com dahucap.com and so on.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
@@ -157,8 +145,7 @@ At Figure \ref{fig:tech}, few of these largest communities are ventered by faceb
  \caption{A zoomed in view of the largest community}
  \label{fig:tech}
 \end{figure}
-Next up are the smaller communities shown in Figure \ref{fig:small groups}, 
-note that they are highly uniform and are very specific.
+Next up are the smaller communities shown in Figure \ref{fig:small groups}. Note that they are highly uniform and are very specific.
 
 \begin{figure}
     \centering
@@ -169,19 +156,9 @@ note that they are highly uniform and are very specific.
     \label{fig:small groups}
 \end{figure}
 
-To find out which community is still active and which ones are dead, 
-a series targeted community HTTP requests was made to the web hosts. 
-The results of the pings are astonishing and yet satisfying: 
-Web pages with higher Pageranks\cite{ilprints422} are more likely to be alive whereas web sites with low Pagerank are prone to death.
+To find out which URLs are still active and which ones are dead, a series of targeted community HTTP requests was made to the web hosts. The results of the pings are astonishing and yet satisfying: web pages with higher PageRank scores\cite{ilprints422} are more likely to be alive whereas web sites with low PageRank scores are prone to being inaccessible.
 
-Some of the websites that are shady has a shorter life expectancy, 
-for communities such as Figure \ref{fig:dead}.
-seeing them through web cache it is easy to tell that they are mostly related with online gamble industry. 
-As most of the gambling websites are illegal and aims to scam innocent people, 
-it is safe to infer that the phishing websites are expected to be dead very soon as they serve only one purpose: 
-to scam people. 
-As they get reported trough time and as the web indexing company finds out, 
-the whole scamming community is likely to be eliminated.
+Shady website communities also seem to have a shorter life expectancy. For communities such as the scamming community shown in Figure \ref{fig:dead}, it is easy to tell that they are mostly related to online gambling. As most of the gambling websites are illegal and aim to scam innocent people, it is safe to infer that the phishing websites are expected to be dead very soon as they serve only to scam. Over time, the whole scamming community is hypothetically likely to be eliminated by web indexing companies. This would explain why the community registers as a ghost town in this research.
 
 \begin{figure}[!h]
  \centerline{\includegraphics[width=\columnwidth]{figs/07after.png}}
@@ -190,7 +167,7 @@ the whole scamming community is likely to be eliminated.
 \end{figure}
 
 \section{Conclusion}
-\lipsum[2-4]
+
 
 
 \bibliographystyle{IEEEtran}
