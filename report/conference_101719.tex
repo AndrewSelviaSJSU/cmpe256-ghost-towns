@@ -54,7 +54,20 @@ This project leverages the expertise of others in the fields of web archival, gr
 
 The primary inspiration which led to this research is the ``Large-scale Graph Mining with Spark'' work performed by Win Suen. In her articles\cite{largeScaleGraphMiningWithSpark1}\cite{largeScaleGraphMiningWithSpark2}, she describes how to detect communities from web archives using label propagation and Apache Spark. Her general approach is leveraged, though many of the gaps are fleshed out with complete implementations. Additionally, a post-processing phase for determining the liveness of sites within a community is introduced.
 
-\section{Tools and Techniques}
+\section{Architecture}
+
+The solution described in this paper is composed of four primary parts described in detail within this section:
+\begin{enumerate}
+	\item CommonCrawl: The web crawl dataset
+	\item Preparer: An application which maps raw WARC data to a graph from which communities are detected
+	\item Reaper: An application which detects dead websites so that ghost towns can be discovered
+	\item Visualization: Visualizations derived from various graph rendering tools
+\end{enumerate}
+
+\begin{figure*}[htbp]
+ \centerline{\includegraphics[width=\textwidth]{Architecture.png}}
+ \caption{A high-level representation of this project's architecture}
+\end{figure*}
 
 \subsection{Community Detection}
 
@@ -64,7 +77,7 @@ The combination of Spark and GraphFrames enables rapid iteration. Spark provides
 
 \subsection{CommonCrawl Data}
 
-CommonCrawl provides free, off-the-shelf web crawl data dating back 7 years. Access is simple since the entire dataset is hosted on AWS S3. One need only choose a month's web crawl and a subset to retrieve. The results described in this paper utilize a single file from the February 2020 crawl.
+CommonCrawl\cite{commonCrawl} provides free, off-the-shelf web crawl data dating back 7 years. Access is simple since the entire dataset is hosted on AWS S3. One need only choose a month's web crawl and a subset to retrieve. The results described in this paper utilize a single file from the February 2020 crawl.
 
 Importantly, CommonCrawl vends the data in Web Archive (WARC) format. This highly-compacted representation encodes a full request and response transaction for each URL visited during the crawl. Though efficient for storage and transmission, WARC demands special care to process.
 
@@ -168,7 +181,25 @@ Shady website communities also seem to have a shorter life expectancy. For commu
 
 \section{Conclusion}
 
+The detection of ``ghost towns'' (communities comprised of dead websites) from web crawl data achieves the stated goal of this research. Obviously, this result is only possible due to the rich community of tools and techniques for performing large-scale graph analysis. This project relies heavily on that ecosystem: CommonCrawl, Spark, ArchiveSpark, GraphFrames, Akka, iGraph, Gephi, etc. Thanks to the efforts of members of this academic community, this project is able to add to the literature with a novel discovery.
 
+\subsection{Applications}
+
+Potential applications of the detection of ghost towns include:
+\begin{itemize}
+	\item Alerting: Search engines may want to dynamically de-prioritize or remove sites associated with a ghost town.
+	\item Reporting: Historical analysis of web crawl data may reveal newsworthy trends such as technological disruption or cultural change.
+	\item Accountability: Citizens concerned about excess government intervention may be able to link ghost towns to nation-state interference and take appropriate action.
+\end{itemize}
+
+\subsection{Future Work}
+
+Naturally, this research endeavor has merely revealed additional layers to explore. Projects worth investigating include:
+\begin{itemize}
+	\item Improving URL liveness check performance: While Reaper is sufficient for processing a few thousand URLs, a production-grade system would certainly demand higher throughput, accuracy metrics, and resilience.
+	\item Larger-scale analysis: Due to time and personnel limitations, this project was not able to rise to true web-scale analysis. Luckily, Preparer is designed and packaged for execution on a Spark cluster. With some additional configuration, it should be possible to run LPA over a larger volume of CommonCrawl data. Of course, such a project would inevitably hit the same bottleneck which hindered this one: Reaper. In order to iterate quickly, Reaper must be advanced.
+	\item Algorithm substitution: LPA is not the only community detection algorithm available. It would be highly rewarding to add additional algorithms to GraphFrames for performing community detection. This could be an opportunity to contribute to the same open-source toolkit which enabled this project in the first place, bringing the virtuous cycle full-circle.
+\end{itemize}
 
 \bibliographystyle{IEEEtran}
 \bibliography{citations}
