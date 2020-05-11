@@ -54,7 +54,7 @@ This project leverages the expertise of others in the fields of web archival, gr
 
 The primary inspiration which led to this research is the ``Large-scale Graph Mining with Spark'' work performed by Win Suen. In her articles\cite{largeScaleGraphMiningWithSpark1}\cite{largeScaleGraphMiningWithSpark2}, she describes how to detect communities from web archives using label propagation and Apache Spark. Her general approach is leveraged, though many of the gaps are fleshed out with complete implementations. Additionally, a post-processing phase for determining the liveness of sites within a community is introduced.
 
-Clustering is a quintessential aspect of data mining, and there is no lack of research on the topic. Many of the classic algorithms like hierarchical clustering and partitional clustering can be applied to graphs. Other proposed algorithms deal primarily with graph data, like graph partitioning algorithms and spectral clustering (though this has since been generalized to non-graph data).  Spectral clustering is particularly popular, and many comprehensive papers, like those by Fortunato \cite{fortunato} or Malliaros /cite{malliaros}, include it as a traditional method to cluster graphs. Another such method is the PageRank algorithm that is at the root of how Google determines the order of search results. Although a few sources mention it (like Malliaros \cite{malliaros}), PageRank has not received the amount of attention spectral algorithms have, perhaps because of the patent on it held by Stanford University. Another popular algorithm is the label propagation algorithm (LPA). Seemingly the least renown of the three, LPA is not as widely recognized as PageRank or spectral clustering. However, according to Raghavan et al \cite{raghavan}, LPA can run in linear time, saving a lot in terms of computational complexity. Compared to spectral clustering, which is computationally expensive for larger datasets, and PageRank, which is better at determining page importance than finding communities, LPA is the most fitting algorithm for this project.
+Clustering is a quintessential aspect of data mining, and there is no lack of research on the topic. Many of the classic algorithms like hierarchical clustering and partitional clustering can be applied to graphs. Other proposed algorithms deal primarily with graph data, like graph partitioning algorithms and spectral clustering (though this has since been generalized to non-graph data).  Spectral clustering is particularly popular, and many comprehensive papers, like those by Fortunato \cite{fortunato} or Malliaros \cite{malliaros}, include it as a traditional method to cluster graphs. Another such method is the PageRank algorithm that is at the root of how Google determines the order of search results. Although a few sources mention it (like Malliaros \cite{malliaros}), PageRank has not received the amount of attention spectral algorithms have, perhaps because of the patent on it held by Stanford University. Another popular algorithm is the label propagation algorithm (LPA). Seemingly the least renown of the three, LPA is not as widely recognized as PageRank or spectral clustering. However, according to Raghavan et al \cite{raghavan}, LPA can run in linear time, saving a lot in terms of computational complexity. Compared to spectral clustering, which is computationally expensive for larger datasets, and PageRank, which is better at determining page importance than finding communities, LPA is the most fitting algorithm for this project.
 
 \section{Architecture}
 
@@ -136,7 +136,7 @@ Running the LPA algorithm yielded about 20,000 different communities. These resu
  \label{fig:communitySizeDistribution}
 \end{figure}
 
-On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figures \ref{fig:communityCircularLayout} \& \ref{fig:communityFRLayout} visualize the same community in two different layouts. The “circle” layout Figure \ref{fig:communityCircularLayout} is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure \ref{fig:communityFRLayout} does a much better job.
+On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figures \ref{fig:communityCircularLayout} \& \ref{fig:communityFRLayout} visualize the same community in two different layouts. The “circle” layout Figure \ref{fig:communityCircularLayout} is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure \ref{fig:communityFRLayout}) does a much better job.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community-circular.png}}
@@ -152,7 +152,7 @@ On the individual community level, website statuses can be included in the graph
 
 \section{Results and Findings}
 
-LPA marks similar websites with connections and observable communities can be observed in the graph. Unsurprisingly, one of the largest observed communities contains a plethora of big tech companies: At Figure \ref{fig:tech}, few of these largest communities are centered around facebook.com, weibo.com dahucap.com and so on.
+LPA marks similar websites with connections and observable communities can be observed in the graph. Unsurprisingly, one of the largest observed communities contains a plethora of big tech companies: in Figures \ref{fig:biggestCommunities} \& \ref{fig:tech}, few of these largest communities are centered around facebook.com, weibo.com, dahucap.com, etc.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
@@ -210,7 +210,16 @@ Naturally, this research endeavor has merely revealed additional layers to explo
 	\item Algorithm substitution: LPA is not the only community detection algorithm available. It would be highly rewarding to add additional algorithms to GraphFrames for performing community detection. This could be an opportunity to contribute to the same open-source toolkit which enabled this project in the first place, bringing the virtuous cycle full-circle.
 \end{itemize}
 
+\section{Papers}
+
+\begin{itemize}
+\item \cite{fortunato}: Community detection in graphs
+\item \cite{malliaros}: Clustering and Community Detection in Directed Networks: A Survey
+\item \cite{raghavan}: Near linear time algorithm to detect community structures in large-scale networks
+\item \cite{luxburg}: A tutorial on spectral clustering
+\item \cite{archiveSparkPaper}: ArchiveSpark: Efficient Web Archive Access, Extraction, and Derivation; This paper provided context around ArchiveSpark mechanics which proved useful during the development of Preparer.
+\end{itemize}
+
 \bibliographystyle{IEEEtran}
 \bibliography{citations}
-\bibliography{related_work}
 \end{document}
