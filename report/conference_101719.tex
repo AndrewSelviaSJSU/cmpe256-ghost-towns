@@ -56,7 +56,7 @@ The primary inspiration which led to this research is the ``Large-scale Graph Mi
 
 \section{Architecture}
 
-The solution described in this paper is composed of four primary parts described in detail within this section:
+The solution described in this paper is composed of four primary parts described in detail within this section and visualized by Figure \ref{fig:architecture}:
 \begin{enumerate}
 	\item CommonCrawl: The web crawl dataset
 	\item Preparer: An application which maps raw WARC data to a graph from which communities are detected
@@ -67,6 +67,7 @@ The solution described in this paper is composed of four primary parts described
 \begin{figure*}[htbp]
  \centerline{\includegraphics[width=\textwidth]{Architecture.png}}
  \caption{A high-level representation of this project's architecture}
+ \label{fig:architecture}
 \end{figure*}
 
 \subsection{Community Detection}
@@ -119,38 +120,42 @@ Equipped with Reaper in its latest form, ghost towns can be discovered nearly 10
 
 \subsection{Visualization}
 
-Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure 1 shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure 2 confirms this quantitatively. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
+Running the LPA algorithm yielded about 20,000 different communities. These results are then visualized using the iGraph module in Python. Figure \ref{fig:communitySizes} shows a qualitative visualization of community size. A quick inspection indicates that there are many small communities and only a few large communities. Figure \ref{fig:communitySizeDistribution} confirms this quantitatively. Over half of all communities consist of only one website. Although the largest community has around 15,000 websites, the average community size is 6.3 websites, and the median community size is 2 websites.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{communities_by_size.png}}
  \caption{Communities plotted by size; circle size and community size are directly proportional}
+ \label{fig:communitySizes}
 \end{figure}
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{CommunitySizeDistribution.png}}
  \caption{The distribution of community sizes detected by LPA.}
+ \label{fig:communitySizeDistribution}
 \end{figure}
 
-On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figures 3 \& 4 visualizes the same community in two different layouts. The “circle” layout (Figure 3) is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure 4) does a much better job.
+On the individual community level, website statuses can be included in the graph. Websites that are down are represented by red nodes while sites that are still up are represented by green nodes. iGraph supports many different graph formats, and some formats visualize HTTP statuses more effectively while other formats are better at showing edges. Figures \ref{fig:communityCircularLayout} \& \ref{fig:communityFRLayout} visualize the same community in two different layouts. The “circle” layout Figure \ref{fig:communityCircularLayout} is very good at displaying website statuses. The reader can get a good idea of the percentage of websites still up. When it comes to modeling the relationships between websites, however, the Fruchterman-Reingold layout \cite{fruchterman1991graph}(Figure \ref{fig:communityFRLayout} does a much better job.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community-circular.png}}
  \caption{A community displayed in circular layout}
+ \label{fig:communityCircularLayout}
 \end{figure}
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{community_fr.png}}
  \caption{The same community displayed in Fruchterman-Reingold layout}
+ \label{fig:communityFRLayout}
 \end{figure}
 
-Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
-
 \section{Results and Findings}
+
 LPA marks similar websites with connections and observable communities can be observed in the graph. Unsurprisingly, one of the largest observed communities contains a plethora of big tech companies: At Figure \ref{fig:tech}, few of these largest communities are centered around facebook.com, weibo.com dahucap.com and so on.
 
 \begin{figure}[htbp]
  \centerline{\includegraphics[width=\columnwidth]{figs/Huge.png}}
  \caption{An overview of biggest communities of LPA result}
+ \label{fig:biggestCommunities}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -172,6 +177,8 @@ Next up are the smaller communities shown in Figure \ref{fig:small groups}. Note
 To find out which URLs are still active and which ones are dead, a series of targeted community HTTP requests was made to the web hosts. The results of the pings are astonishing and yet satisfying: web pages with higher PageRank scores\cite{ilprints422} are more likely to be alive whereas web sites with low PageRank scores are prone to being inaccessible.
 
 Shady website communities also seem to have a shorter life expectancy. For communities such as the scamming community shown in Figure \ref{fig:dead}, it is easy to tell that they are mostly related to online gambling. As most of the gambling websites are illegal and aim to scam innocent people, it is safe to infer that the phishing websites are expected to be dead very soon as they serve only to scam. Over time, the whole scamming community is hypothetically likely to be eliminated by web indexing companies. This would explain why the community registers as a ghost town in this research.
+
+Within each cluster, all the websites should have something in common. The results show that LPA can detect super niche communities. Some examples of this are the Indigenous Canadian community, the Pacific-Northwest Motorcycle community, and the French Astrophotography community. These communities are mostly still up, with very few dead links. In line with the goals of this project, the algorithm was able to successfully find some online ghost towns. One example of this is what looks like the Chinese Gambling website community. None of the fourteen websites in this community are still up. It is possible that these websites were terminated or reported.
 
 \begin{figure}[!h]
  \centerline{\includegraphics[width=\columnwidth]{figs/07after.png}}
