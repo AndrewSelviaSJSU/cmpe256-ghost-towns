@@ -86,11 +86,13 @@ Effort was expended to package Preparer in a single fat jar so it could be run v
 In conclusion, Preparer satisfies its contract of processing raw WARC data through a pipeline which includes LPA to detect communities. Though inspired by Win Suen's process, this procedure is truly novel as her data preparation code is excluded from her report and makes no mention of ArchiveSpark.
 
 \subsection{Reaper}
-\subsection{Version 1}
+
+\subsubsection{Version 1}
+
 To get the HTTP status of a given website, there must be some program to make a HTTP request. The first version of this program was a python script that utilized the requests and URLLib libraries. Reaper version 1 ran serially and processed about 70 URLs per minute, which quickly became a bottleneck for our project. In some attempts to speed up each request, some minor changes was made, like sending HEAD requests instead of full GET requests, using "http://" instead of "https://", and limiting the request timeout to one second. None of these fixes provided the necessary speed boost, so ultimately the program had to be restructured to run more efficiently.
 
-TODO
 \subsubsection{Version 2}
+
 The first version of HTTP request system was a serialized version, 
 which means if there exists on website link that does not respond in time the speed of the script will be slowed down, 
 therefore parallel task distribution is need. 
@@ -104,7 +106,11 @@ With ThreadPoolExecutor in use with the max workers set to 3 and connection time
 it is observed that approximately 50\% of the false negatives were eliminated. 
 Yet there are a total of 140k URLs so other faster tool is needed for the research.
 
-\subsection{Version 3}
+\subsubsection{Version 3}
+
+With the presentation deadline looming, it became clear that the primary bottleneck to discovering ghost towns was Reaper. In order to perform rapid analysis of communities, it needed to process URLs more quickly. This insight led to a third version of Reaper. This time, the Akka library was chosen for its superb concurrent programming model based on actors. This third version of Reaper is written in Scala, built with SBT, and depends on akka-typed \cite{akkaTyped} and akka-http \cite{akkaHttp}. Functionally, it consumes a list of URLs, making a HEAD request for each, then marks the URL as reachable if and only if the response's status code is neither a 4XX (client error) nor 5XX (server error); if the request times out (with a 60 second limit), the URL is marked unreachable. This repeatable process is distributed to Akka actors running concurrently. With proper tuning, this revised approach is capable of processing over 600 URLs per minute running on a single machine. Of course, with some additional effort, the actor model could scale to additional nodes in a cluster, potentially yielding far higher throughput. Time constraints and overriding priorities prohibited further advances on this front.
+
+Equipped with Reaper in its latest form, ghost towns can be discovered in a fraction of the time it took at first. Of course, another key metric by which to judge it is accuracy. In that regard, Reaper is still quite finicky. After careful tuning of timeout values and concurrent processing limits, Reaper is able to catch predominantly true negatives (URLs which are truly unreachable). However, careless configuration such as insufficient timeout lengths or lack of throttling can produce large numbers of false negatives (URLs marked unreachable which are, in fact, reachable). Improved evaluation of Reaper results is an unexplored area of this project. Currently, evaluation is performed manually and judged heuristically. Nonetheless, its current form is satisfactory for the purposes of this research.
 
 \subsection{Visualization}
 
